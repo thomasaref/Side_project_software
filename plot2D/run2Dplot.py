@@ -13,7 +13,10 @@ import h5py
 #filename="/Users/thomasaref/Dropbox/Current stuff/sample3/digitizer/lt/sample3_digitizer_f_sweep_t_300mk_100nspulse.hdf5"
 
 filename="/Users/thomasaref/Dropbox/Current stuff/Logbook/T_testy5_2.hdf5"
-#filename="/Users/thomasaref/Dropbox/Current stuff/Logbook/T_testy7.hdf5"
+filename="/Users/thomasaref/Dropbox/Current stuff/Logbook/T_testy7.hdf5"
+filename="/Users/thomasaref/Dropbox/Current stuff/Logbook/T_testy16.hdf5"
+
+
 with h5py.File(filename, 'r') as f:
     Magvec=f["Traces"]["Agilent VNA - S21"][:]
     yoko=f["Data"]["Data"][:]
