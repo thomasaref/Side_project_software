@@ -44,11 +44,11 @@ x=linspace(0, len(td)-1, len(td))
 
 td=(td-amin(td))/(amax(td)-amin(td))
 #See http://en.wikipedia.org/wiki/Bit_rate#Audio
-bit_depth=16 #24  16-bit or 24 bit are typical professional audio standards
-sample_rate=44100 # 48 kHZ, 96 kHz and 192 kHz.
+bit_depth=8 #24  16-bit or 24 bit are typical professional audio standards
+sample_rate=192000 # 48 kHZ, 96 kHz and 192 kHz.
 channels=1 #2 mono or stereo
 bit_rate = sample_rate*bit_depth*channels
-#BITRATE = 128000 #32000 #number of frames per second/frameset.
+#bit_rate = 128000 #32000 #number of frames per second/frameset.
 #See http://www.phy.mtu.edu/~suits/notefreqs.html
 FREQUENCY = 587.33#/20.0 #D5 #1000#261.63 #Hz, waves per second, 261.63=C4-note.
 LENGTH =10 #seconds to play sound
@@ -104,20 +104,26 @@ if 0:
     #plot.add_plot("cross_sec", yname="Macvec1", ydata=c)
     #    plot.add_plot("cross_se2", yname="Macvec2", ydata=mag_vec[:, 75])
     plot.show()
-    for x in xrange(NUMBEROFFRAMES):
-        WAVEDATA = WAVEDATA+chr(c[x])
+for x in xrange(NUMBEROFFRAMES):
+    WAVEDATA = WAVEDATA+chr(c[x])
     
     #fill remainder of frameset with silence
-    for x in xrange(RESTFRAMES):
-        WAVEDATA = WAVEDATA+chr(128)
+for x in xrange(RESTFRAMES):
+    WAVEDATA = WAVEDATA+chr(128)
     
 p = PyAudio()
-FORMAT=p.get_format_from_width(4)
+FORMAT=p.get_format_from_width(1)
+
+#pyaudio.paInt16 = 8 corresponds to FORMAT=p.get_format_from_width(2)
+
+
+#pyaudio.paInt24 = 4  corresponds to FORMAT=p.get_format_from_width(3)
+
 print FORMAT
-if 0:
+if 1:
     stream = p.open(format = p.get_format_from_width(1),
                     channels = 1,
-                    rate = bit_rate,
+                    rate = sample_rate,
                     output = True)
     stream.write(WAVEDATA)
     stream.stop_stream()
@@ -129,6 +135,6 @@ if 0:
         wf = wave.open('short_pulse.wav', 'wb')
         wf.setnchannels(1)
         wf.setsampwidth(p.get_sample_size(FORMAT))
-        wf.setframerate(BITRATE)
+        wf.setframerate(bit_rate)
         wf.writeframes(WAVEDATA)
         wf.close()
